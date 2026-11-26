@@ -3,208 +3,123 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>From brief to pilot · Customer co-creation</title>
-  <style>
-    :root {
-      --ink: #172d2b; --muted: #4d6460; --green: #17564a; --dark: #183e39;
-      --paper: #f6f6ee; --card: #fffefa; --line: #cbd5c9; --lime: #ddea98;
-      --shadow: 0 3px 12px rgb(28 51 39 / 4%);
-      font: 16px/1.5 "Inter", "Segoe UI", Arial, sans-serif;
-      color: var(--ink); background: var(--paper);
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; }
-    [hidden] { display: none !important; }
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-    :focus-visible { outline: 3px solid #a34b18; outline-offset: 4px; }
-    .wrap { width: min(100% - 44px, 980px); margin-inline: auto; }
-    header { color: #fff; background: var(--dark); }
-    .masthead, nav, .nav-inner, .actions, .brand, .choice-head { display: flex; align-items: center; }
-    .masthead { min-height: 64px; justify-content: space-between; gap: 16px; }
-    .brand { gap: 11px; font-size: 1rem; font-weight: 650; }
-    .mark { width: 24px; height: 24px; border: 1.5px solid #ddea98; border-radius: 5px; position: relative; transform: rotate(-7deg); }
-    .mark::after { content: ""; position: absolute; top: 4px; bottom: 4px; left: 5px; border-left: 2px solid var(--lime); }
-    .demo-label { color: #d6e6d9; font-size: .82rem; }
-    nav { background: var(--card); border-bottom: 1px solid var(--line); }
-    .nav-inner { min-height: 54px; gap: 26px; }
-    .step { position: relative; border: 0; background: none; color: var(--muted); padding: 14px 1px; min-height: 54px; font-weight: 650; }
-    .step[aria-current="step"] { color: var(--green); }
-    .step[aria-current="step"]::after { content: ""; position: absolute; inset: auto 0 0; height: 3px; background: var(--green); }
-    main { padding-block: clamp(22px, 3.8vw, 43px) 28px; }
-    h1, h2, h3, p, blockquote { margin: 0; }
-    .overline { text-transform: uppercase; letter-spacing: .11em; font-size: .72rem; color: var(--green); font-weight: 740; }
-    h1 { font-family: "Instrument Serif", Georgia, serif; font-weight: 500; font-size: clamp(2.35rem, 5vw, 3.75rem); line-height: 1.05; letter-spacing: -.045em; margin: 7px 0 14px; }
-    h2 { font-size: 1.13rem; line-height: 1.3; }
-    .intro { max-width: 72ch; color: var(--muted); margin-bottom: 24px; }
-    .grid { display: grid; gap: 15px; }
-    .brief-grid { grid-template-columns: 1.25fr 1fr; align-items: stretch; }
-    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
-    .panel h2, .choice h2 { margin-bottom: 6px; }
-    .request { background: #e6edd5; border-color: #c9d6ba; }
-    blockquote { margin-block: 14px 12px; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.23; letter-spacing: -.02em; }
-    .attribution { font-size: .84rem; color: var(--muted); }
-    .field + .field { margin-top: 17px; padding-top: 15px; border-top: 1px solid var(--line); }
-    .field p, .choice p, .note-copy, dd { color: var(--muted); }
-    .note { display: grid; grid-template-columns: minmax(145px, 1fr) 3.3fr; gap: 16px; align-items: baseline; border-left: 3px solid #84993b; background: #edf0e2; padding: 15px 19px; border-radius: 0 8px 8px 0; margin-top: 16px; }
-    .note h2 { font-size: .93rem; }
-    .note h2 small { font-size: .76rem; display: block; font-weight: 500; color: var(--muted); margin-top: 2px; }
-    .note-copy { font-size: .94rem; }
-    .actions { margin-top: 22px; flex-wrap: wrap; gap: 12px; }
-    .primary, .secondary { min-height: 43px; padding: 9px 17px; border-radius: 7px; font-weight: 650; border: 1px solid var(--green); }
-    .primary { background: var(--green); color: white; }
-    .primary:hover { background: #0e4238; }
-    .secondary { color: var(--green); background: transparent; }
-    .secondary:hover { background: #e5eadc; }
-    .primary span[aria-hidden] { margin-left: 12px; }
-    fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-    legend { padding: 0 0 8px; font-size: .9rem; font-weight: 700; }
-    .choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .choice { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 17px 20px; cursor: pointer; }
-    .choice:has(input:checked) { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); background: #ecf1e4; }
-    .choice:has(input:focus-visible) { outline: 3px solid #a34b18; outline-offset: 3px; }
-    .choice-head { gap: 9px; margin-bottom: 5px; }
-    .choice input { width: 18px; height: 18px; margin: 0; accent-color: var(--green); }
-    .choice strong { font-size: 1.08rem; }
-    .choice .description { display: block; color: var(--muted); }
-    .feedback { margin-top: 16px; background: #e6edd5; border-color: #c9d6ba; padding-block: 17px; }
-    .feedback blockquote { margin: 6px 0; font-size: clamp(1.22rem, 2.3vw, 1.65rem); }
-    .pilot { background: var(--dark); color: white; }
-    .pilot .overline { color: var(--lime); }
-    .pilot h2 { font-family: "Instrument Serif", Georgia, serif; font-weight: 500; letter-spacing: -.02em; font-size: 1.8rem; margin: 7px 0 6px; }
-    .pilot p:last-child { max-width: 75ch; color: #dfebe4; }
-    dl { margin: 15px 0 0; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    dt { color: var(--green); font-size: .83rem; font-weight: 750; margin-bottom: 4px; }
-    dd { margin: 0; }
-    dl .panel { padding: 16px 18px; }
-    footer { color: var(--muted); font-size: .79rem; padding-block: 14px 20px; border-top: 1px solid var(--line); }
-    @media (max-width: 680px) {
-      .wrap { width: calc(100% - 32px); }
-      .masthead { min-height: 56px; }
-      .brand { font-size: .9rem; gap: 8px; }
-      .demo-label { font-size: .75rem; }
-      .nav-inner { gap: 22px; }
-      .brief-grid, dl, .choices { grid-template-columns: 1fr; }
-      .note { grid-template-columns: 1fr; gap: 5px; }
-      .note h2 small { display: inline; margin-left: 6px; }
-      .panel { padding: 17px 18px; }
-      .intro { margin-bottom: 17px; }
-    }
-  </style>
+  <meta name="theme-color" content="#10221e">
+  <meta name="description" content="A fictional grocery case for turning a customer brief into a jointly designed media pilot.">
+  <title>Co-creation desk · From customer brief to pilot</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="masthead wrap">
-      <div class="brand"><span class="mark" aria-hidden="true"></span>Co-creation notebook</div>
-      <span class="demo-label">Fictional case study</span>
+  <a class="skip-link" href="#workspace">Skip to the workspace</a>
+
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <div class="wordmark">
+        <span class="wordmark-icon" aria-hidden="true"></span>
+        <span>Co-creation desk</span>
+      </div>
+      <a class="masthead-link" href="https://github.com/fernandofcnunes/customer-co-creation">Case source on GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </header>
-  <nav aria-label="Case stages">
-    <div class="nav-inner wrap">
-      <button class="step" type="button" data-go="brief" aria-current="step">Brief</button>
-      <button class="step" type="button" data-go="ideas">Ideas</button>
-      <button class="step" type="button" data-go="pilot">Pilot</button>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="wrap hero-inner">
+      <p class="kicker">Fictional grocery media case</p>
+      <h1 id="page-title">From customer brief to pilot</h1>
+      <p>A grocery customer wants to help shoppers finish dinner when an ingredient is missing. Use their brief and feedback to compare concepts and agree on what to test.</p>
+    </div>
+  </section>
+
+  <nav class="stage-bar" aria-label="Workspace sections">
+    <div class="wrap stage-inner">
+      <div class="stage-links">
+        <a class="stage-link" href="#brief-section">Customer brief</a>
+        <a class="stage-link" href="#comparison-section">Concept analysis</a>
+        <a class="stage-link" href="#pilot-section">Pilot plan</a>
+      </div>
+      <span class="mode-tag">Runs locally in your browser</span>
     </div>
   </nav>
-  <main class="wrap">
-    <section id="brief" aria-labelledby="brief-title">
-      <p class="overline">Grocery · Customer request</p>
-      <h1 id="brief-title" tabindex="-1">The weeknight dinner brief</h1>
-      <p class="intro">A grocery customer and a media sales team share one notebook for current work, new ideas and the decisions they make together.</p>
-      <div class="grid brief-grid">
-        <div class="panel request">
-          <h2>The customer’s question</h2>
-          <blockquote>“Can we help someone finish planning dinner when one ingredient is missing?”</blockquote>
-          <p class="attribution">Customer marketing lead · Fictional scenario</p>
-        </div>
-        <div class="panel">
-          <div class="field"><h2>Current work</h2><p>The team is reviewing next week’s meal-planning content.</p></div>
-          <div class="field"><h2>Opening for a pilot</h2><p>Use one existing recipe to test how shoppers handle an unavailable ingredient.</p></div>
+
+  <main id="workspace" class="wrap workspace">
+    <section id="brief-section" class="panel brief-panel" aria-labelledby="brief-title">
+      <div class="panel-header">
+        <div>
+          <h2 id="brief-title">Customer brief</h2>
+          <p>Try a feedback preset or edit the customer’s input.</p>
         </div>
       </div>
-      <aside class="note"><h2>AI-assisted framing <small>Prewritten illustration</small></h2><p class="note-copy">Draft hypothesis for the team to review: a shopper may keep a recipe if they can quickly find a workable swap.</p></aside>
-      <div class="actions"><button class="primary" type="button" data-go="ideas">Review two ideas <span aria-hidden="true">→</span></button></div>
+
+      <form id="brief-form">
+        <div id="presets" class="presets" role="group" aria-label="Customer feedback presets"></div>
+        <div class="field">
+          <label for="brief">Brief</label>
+          <textarea id="brief" name="brief" rows="4" required></textarea>
+        </div>
+        <div class="field">
+          <label for="feedback">Customer feedback</label>
+          <textarea id="feedback" name="feedback" rows="4"></textarea>
+        </div>
+        <fieldset class="controls">
+          <legend>Decision weights</legend>
+          <div id="weights" class="controls-grid"></div>
+        </fieldset>
+        <div class="actions">
+          <button class="button button-primary" type="submit">Run analysis <span aria-hidden="true">↗</span></button>
+          <button id="reset" class="button button-quiet" type="button">Reset brief</button>
+        </div>
+      </form>
+      <noscript><p class="input-status">Turn on JavaScript to run the analysis and design a pilot.</p></noscript>
     </section>
 
-    <section id="ideas" aria-labelledby="ideas-title" hidden>
-      <p class="overline">Grocery · Joint review</p>
-      <h1 id="ideas-title" tabindex="-1">Two ways to help a shopper</h1>
-      <p class="intro">The team puts two prototypes in front of the customer. Their feedback changes what each prototype would need to show.</p>
-      <fieldset>
-        <legend>Choose an idea to carry into the pilot</legend>
-        <div class="grid choices">
-          <label class="choice"><span class="choice-head"><input type="radio" name="idea" value="card" checked><strong>Ingredient-swap card</strong></span><span class="description">Place a substitute beside the original ingredient on a mobile recipe card.</span></label>
-          <label class="choice"><span class="choice-head"><input type="radio" name="idea" value="clip"><strong>Short prep clip</strong></span><span class="description">Show a cook replacing the missing ingredient in a short, captioned video.</span></label>
+    <div class="workspace-main">
+      <section id="comparison-section" class="panel" aria-labelledby="comparison-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="comparison-title">Concept analysis</h2>
+            <p>Select a concept to inspect its criteria and supporting evidence.</p>
+          </div>
+          <p id="result-status" class="input-status result-status" role="status" aria-live="polite"></p>
         </div>
-      </fieldset>
-      <div class="panel feedback">
-        <p class="overline">Customer feedback</p>
-        <blockquote>“They’ll have a phone in one hand. Show me how they find the swap before they start cooking.”</blockquote>
-        <p class="attribution">Customer marketing lead · Fictional scenario</p>
-      </div>
-      <div class="actions"><button class="primary" type="button" data-go="pilot">Open pilot plan <span aria-hidden="true">→</span></button></div>
-    </section>
+        <div id="ranked-options" class="candidate-list" role="group" aria-label="Ranked concepts"></div>
+        <div id="option-detail" class="option-detail"></div>
+        <div id="conflicts" class="conflicts"></div>
+      </section>
 
-    <section id="pilot" aria-labelledby="pilot-title" hidden>
-      <p class="overline">Grocery · Test design</p>
-      <h1 id="pilot-title" tabindex="-1">A decision the team can test</h1>
-      <p class="intro">The selected concept becomes a small research task with a clear question and an owner.</p>
-      <div class="panel pilot">
-        <p class="overline">Selected pilot</p><h2 id="pilot-name">Ingredient-swap card</h2><p id="pilot-design">Put one substitute beside the ingredient in a mobile recipe. Compare that version with the same recipe without a swap.</p>
-      </div>
-      <dl class="grid">
-        <div class="panel"><dt>Research task</dt><dd id="task-text">Give a shopper one missing ingredient and ask them to adapt the dinner plan.</dd></div>
-        <div class="panel"><dt>What to observe</dt><dd id="measure-text">Can they find a workable swap and explain their choice without help?</dd></div>
-        <div class="panel"><dt>Who does what</dt><dd>The team builds both versions. The customer reviews the task. Both review observations before deciding what to change.</dd></div>
-      </dl>
-      <div class="actions"><button class="secondary" type="button" data-go="ideas">Change the idea</button></div>
-    </section>
+      <section id="pilot-section" class="panel pilot-panel" aria-labelledby="pilot-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="pilot-title">Pilot plan</h2>
+            <p>Review the proposed test before approving the plan.</p>
+          </div>
+        </div>
+        <div id="pilot"></div>
+        <details class="sample-planner">
+          <summary>Estimate a follow-up A/B test sample</summary>
+          <div class="sample-fields">
+            <div class="field">
+              <label for="baseline-rate">Baseline success (%)</label>
+              <input id="baseline-rate" type="number" min="1" max="98" value="50" required>
+            </div>
+            <div class="field">
+              <label for="target-lift">Minimum lift (percentage points)</label>
+              <input id="target-lift" type="number" min="1" max="98" value="15" required>
+            </div>
+          </div>
+          <p id="sample-result" role="status"></p>
+          <small>Assumes equal groups, independent observations, 80% power and a two-sided 5% significance level. Use observed baseline data before committing to sample size.</small>
+        </details>
+        <div class="actions">
+          <button id="approve" class="button button-primary" type="button" disabled>Approve pilot</button>
+          <button id="export" class="button" type="button" disabled>Export decision</button>
+        </div>
+        <p id="decision-status" class="input-status" role="status" aria-live="polite"></p>
+      </section>
+    </div>
   </main>
-  <footer class="wrap">Independent portfolio demonstration. The scenario, quotes and pilot plans are fictional.</footer>
-  <script>
-    const stages = ["brief", "ideas", "pilot"];
-    const plan = {
-      card: {
-        name: "Ingredient-swap card",
-        design: "Put one substitute beside the ingredient in a mobile recipe. Compare that version with the same recipe without a swap.",
-        task: "Give a shopper one missing ingredient and ask them to adapt the dinner plan.",
-        measure: "Can they find a workable swap and explain their choice without help?"
-      },
-      clip: {
-        name: "Short prep clip",
-        design: "Put a captioned substitution in the opening shot. Compare that cut with a version that shows the swap later in the recipe.",
-        task: "Ask a shopper to find an alternative before they begin cooking, with the sound off.",
-        measure: "Can they identify the substitute without replaying or scrubbing through the clip?"
-      }
-    };
-    function updatePlan() {
-      const selected = document.querySelector('input[name="idea"]:checked').value;
-      const current = plan[selected];
-      document.getElementById("pilot-name").textContent = current.name;
-      document.getElementById("pilot-design").textContent = current.design;
-      document.getElementById("task-text").textContent = current.task;
-      document.getElementById("measure-text").textContent = current.measure;
-    }
-    function showStage(stage) {
-      if (!stages.includes(stage)) return;
-      updatePlan();
-      for (const id of stages) {
-        document.getElementById(id).hidden = id !== stage;
-      }
-      for (const step of document.querySelectorAll(".step")) {
-        if (step.dataset.go === stage) step.setAttribute("aria-current", "step");
-        else step.removeAttribute("aria-current");
-      }
-      document.getElementById(stage + "-title").focus({preventScroll:true});
-      window.scrollTo(0, 0);
-    }
-    for (const control of document.querySelectorAll("[data-go]")) {
-      control.addEventListener("click", () => showStage(control.dataset.go));
-    }
-    for (const input of document.querySelectorAll('input[name="idea"]')) {
-      input.addEventListener("change", updatePlan);
-    }
-  </script>
+
+  <footer class="site-footer">
+    <div class="wrap">Independent portfolio demonstration. Customer inputs, evidence and pilot plans are fictional.</div>
+  </footer>
 </body>
 </html>

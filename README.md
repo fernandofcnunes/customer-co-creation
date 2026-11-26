@@ -1,29 +1,32 @@
 # From customer brief to shared pilot
 
-A fictional grocery customer asks what happens to a dinner plan when an ingredient is missing. A media sales team and the customer use a shared workspace to develop two ideas and agree on a small test.
+A grocery advertiser wants to know what happens to a dinner plan when an ingredient is unavailable. A media sales team and its customer use a shared workspace to compare concepts, challenge the evidence and agree on what to test.
 
-**My role.** I lead commercial teams that build solutions with customers. In a real customer collaboration, our team built a shared space for day-to-day account work and new ideas. This independent example shows how I encourage teams to invite the customer into the first prototype review, while it is still easy to change.
+**My role.** I lead commercial teams that build solutions with customers. In a real collaboration, our team built a shared space for day-to-day account work and new ideas. This independent case uses a fictional brief to show how I involve the customer in early prototype decisions.
 
-**[Open the interactive demo](https://fernandofcnunes.github.io/customer-co-creation/)**
+[Open the GitHub Pages demo](https://fernandofcnunes.github.io/customer-co-creation/)
 
-To explore it offline, download [index.html](index.html) and open it in a browser. Choose either idea to see how the research question changes. It runs locally with no sign-in, dependencies or network requests. The walkthrough below can be read directly on GitHub.
+## Walk through the case
 
-### 1. Frame the customer’s request
+1. **Frame the brief.** Try the one-handed experience, low bandwidth or short video feedback presets. You can edit the brief and feedback and tune the decision weights.
+2. **Evaluate the trade-offs.** Compare an ingredient swap card, a prep clip, a saved shopping list and a pantry filter. Inspect the score breakdown, matched terms, source notes and risks. The ranking changes as the customer's needs change.
+3. **Agree on a test.** Select a concept and review the control, variant, primary metric, guardrail and threshold. The follow-up sample planner estimates how many participants a larger A/B test might require. A human approves the selected pilot before it can be exported as JSON. Editing the brief, feedback or weights requires rerunning the analysis before approving a new plan.
 
-A routine review of meal-planning content surfaces a practical question. A prewritten illustration of AI-assisted framing turns it into a hypothesis for people to review. The demo does not call an AI service.
+## How it works
 
-![Brief showing the customer's question and a proposed pilot with a single recipe.](brief.png)
+- **Retrieval.** BM25 ranks a small corpus of synthetic notes against the brief and feedback. A domain vocabulary normalizes equivalent terms, and the feedback receives extra weight. The interface shows each concept's matching notes.
+- **Decision model.** A weighted score combines customer impact, feasibility and evidence confidence. Explicit rules account for concerns such as offline use or captions and flag competing needs. Evidence confidence reflects retrieval strength within the fictional corpus. It does not estimate the probability of a pilot succeeding.
+- **Pilot selection.** Each concept has a distinct pilot template. The approval and analysis inputs are stored in the browser when local storage is available. A follow-up sample estimate uses a normal approximation for two independent proportions under equal allocation.
+- **Runtime.** Strict TypeScript compiles to a static browser script. The demo uses local search and scoring without calling a generative model, server or third-party API. The scenario, evidence and pilot plans are fictional.
 
-### 2. Let feedback change the prototype
+## Run locally
 
-The team proposes an ingredient-swap card and a short prep clip. The customer asks how a shopper holding a phone in one hand will find the alternative before cooking.
+Download or clone the repository and open `index.html`. The compiled `app.js` and `styles.css` must be alongside it. To serve the folder over HTTP, run `python3 -m http.server 8000` and open `http://localhost:8000`.
 
-![Two candidate formats and the customer feedback that shapes the choice.](ideas.png)
+To rebuild the browser script after changing the TypeScript:
 
-### 3. Choose the next test together
+```sh
+npx --yes --package typescript@5.9.3 tsc --project tsconfig.json
+```
 
-For the card, compare the same recipe with and without a visible substitute. For the clip, compare when the substitute appears. The team builds the variants, the customer reviews the task, and both review observations before deciding what to change.
-
-![Pilot plan for the ingredient-swap card, with a shopper task and an observation question.](pilot.png)
-
-The scenario, quotes and test plans are fictional. The planned tests have no reported results.
+The TypeScript sources are in `src/`. Commit the regenerated `app.js` with source changes so the GitHub Pages site can serve the same build.

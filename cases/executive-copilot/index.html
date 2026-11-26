@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101e36">
+  <meta name="description" content="An evidence-based decision briefing for a fictional municipal equipment collection pilot.">
+  <title>Launch review · Community equipment collection</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to the workspace</a>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Launch review</span>
+      </div>
+      <span class="masthead-note">Fictional portfolio case</span>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="wrap hero-inner">
+      <div>
+        <p class="kicker">Community equipment collection</p>
+        <h1 id="page-title">Should we launch the collection pilot?</h1>
+      </div>
+      <p class="hero-copy">A city is considering a service for residents to drop off unused equipment at libraries and community centers. Review the fictional planning evidence and prepare a briefing for the launch decision.</p>
+    </div>
+  </section>
+
+  <main id="workspace" class="wrap workspace" tabindex="-1">
+    <section class="panel inputs-panel" aria-labelledby="inputs-title">
+      <div class="panel-header">
+        <h2 id="inputs-title">Review setup</h2>
+        <p>Choose the evidence available to the team.</p>
+      </div>
+
+      <fieldset class="form-field" aria-describedby="scenario-description">
+        <legend>Evidence scenario</legend>
+        <div id="scenario-options" class="scenario-options"></div>
+        <p id="scenario-description" class="scenario-description" aria-live="polite"></p>
+      </fieldset>
+
+      <form id="question-form">
+        <div class="form-field">
+          <label for="question">Decision question</label>
+          <textarea id="question" name="question" rows="4" required>Is the collection pilot ready to launch, and what would need to happen first?</textarea>
+        </div>
+        <button id="generate" class="button button-primary" type="submit">Generate briefing <span aria-hidden="true">→</span></button>
+      </form>
+      <noscript><p class="form-note">Enable JavaScript to generate and inspect a briefing.</p></noscript>
+    </section>
+
+    <div class="workspace-main">
+      <section class="panel summary-panel" aria-labelledby="briefing-title">
+        <div class="panel-header summary-header">
+          <div>
+            <h2 id="briefing-title">Decision briefing</h2>
+            <p>Follow a citation to review the supporting record.</p>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </div>
+
+        <ul id="briefing" class="briefing-list" aria-label="Briefing findings"></ul>
+
+        <section id="conflicts" class="conflicts" aria-labelledby="conflicts-title" hidden>
+          <h3 id="conflicts-title">Conflicting evidence</h3>
+          <ul></ul>
+        </section>
+
+        <div class="workstreams">
+          <section aria-labelledby="commitments-title">
+            <h3 id="commitments-title">Commitments</h3>
+            <div id="commitments" class="commitments-list"></div>
+          </section>
+          <section aria-labelledby="questions-title">
+            <h3 id="questions-title">Open questions</h3>
+            <ul id="questions" class="question-list"></ul>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="sources-title">
+        <div class="panel-header">
+          <h2 id="sources-title">Sources</h2>
+          <p>Fictional records used to prepare the briefing.</p>
+        </div>
+        <div id="sources" class="sources-list"></div>
+      </section>
+
+      <section class="panel methods-panel" aria-labelledby="methods-title">
+        <div class="panel-header">
+          <h2 id="methods-title">Method trace</h2>
+          <p>See how the question was routed and how the briefing used evidence.</p>
+        </div>
+        <ol id="trace" class="trace-list"></ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">This demonstration uses fictional people, organizations, records, and decisions.</div>
+  </footer>
+</body>
+</html>
